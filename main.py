@@ -1,5 +1,17 @@
 import tkinter as tk
 from tkinter import messagebox
+from datetime import datetime
+
+
+# Function to save scores to text file
+def save_scores(score_var, section_scores):
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filename = f"quiz_scores_{timestamp}.txt"
+
+    with open(filename, "w") as file:
+        file.write(f"Total Score: {score_var.get()}\n")
+        for section, score in section_scores.items():
+            file.write(f"{section} Score: {score.get()}\n")
 
 
 # Function to check answers and calculate score
@@ -31,6 +43,8 @@ def check_answers(questions, answers, score_var, section_scores):
         grade = "F, you need some more training"
 
     messagebox.showinfo("Score", f"Your score: {correct_answers}/{total_questions}\nPercentage: {percentage:.2f}%\nGrade: {grade}")
+    # Calls the save_scores
+    save_scores(score_var, section_scores)
 
 
 # Main function
